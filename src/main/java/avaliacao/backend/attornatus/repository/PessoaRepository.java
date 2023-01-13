@@ -1,6 +1,6 @@
-package avaliacao.backend.attornatus.interfaceadapter.repository;
+package avaliacao.backend.attornatus.repository;
 
-import avaliacao.backend.attornatus.entities.PessoaModel;
+import avaliacao.backend.attornatus.repository.models.PessoaModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

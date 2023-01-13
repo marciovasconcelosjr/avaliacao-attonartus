@@ -1,18 +1,19 @@
-package avaliacao.backend.attornatus.interfaceadapter;
+package avaliacao.backend.attornatus.service;
 
-import avaliacao.backend.attornatus.entities.EnderecoModel;
-import avaliacao.backend.attornatus.entities.PessoaModel;
-import avaliacao.backend.attornatus.interfaceadapter.repository.PessoaRepository;
+import avaliacao.backend.attornatus.repository.models.EnderecoModel;
+import avaliacao.backend.attornatus.repository.models.PessoaModel;
+import avaliacao.backend.attornatus.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PessoaGateway {
+public class PessoaService {
 
     private final PessoaRepository pessoaRepository;
 
@@ -38,7 +39,7 @@ public class PessoaGateway {
 
     public PessoaModel save(PessoaModel pessoaModel) {
         for (int i = 0; i < pessoaModel.getEnderecos().size(); i++) {
-            alteraParaEnderecoPrincipal(pessoaModel.getEnderecos().get(i), false);
+            alteraEnderecoPrincipal(pessoaModel.getEnderecos().get(i), false);
         }
         return pessoaRepository.save(pessoaModel);
     }
@@ -46,7 +47,7 @@ public class PessoaGateway {
     public PessoaModel update(Long id, PessoaModel pessoaModel) {
         PessoaModel pessoaModelById = findById(id).getBody();
         if (!verificaSePessoaExiste(pessoaModelById)) {
-            return null;
+            throw new NotFoundException("Id não encontrado.");
         }
         pessoaModel.setId(id);
         return save(pessoaModel);
@@ -62,9 +63,9 @@ public class PessoaGateway {
         List<EnderecoModel> enderecoModels = pessoaModel.getEnderecos();
         for (int i = 0; i < pessoaModel.getEnderecos().size(); i++) {
             if (CEP.equals(enderecoModels.get(i).getCEP())) {
-                alteraParaEnderecoPrincipal(enderecoModels.get(i), true);
+                alteraEnderecoPrincipal(enderecoModels.get(i), true);
             } else {
-                alteraParaEnderecoPrincipal(enderecoModels.get(i), false);
+                alteraEnderecoPrincipal(enderecoModels.get(i), false);
             }
         }
         pessoaModel.setEnderecos(enderecoModels);
@@ -79,7 +80,7 @@ public class PessoaGateway {
         return true;
     }
 
-    private void alteraParaEnderecoPrincipal(EnderecoModel enderecoModel, boolean principal) {
+    private void alteraEnderecoPrincipal(EnderecoModel enderecoModel, boolean principal) {
         enderecoModel.setEnderecoPrincipal(principal);
     }
 }

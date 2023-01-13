@@ -1,4 +1,4 @@
-package avaliacao.backend.attornatus.entities;
+package avaliacao.backend.attornatus.repository.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
