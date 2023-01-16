@@ -1,4 +1,4 @@
-package avaliacao.backend.attornatus.dto;
+package avaliacao.backend.attornatus.models;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

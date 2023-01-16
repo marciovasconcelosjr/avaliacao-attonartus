@@ -21,12 +21,12 @@ public class PessoaService {
         return pessoaRepository.findAll();
     }
 
-    public ResponseEntity<PessoaModel> findById(Long id) {
+    public PessoaModel findById(Long id) {
         Optional<PessoaModel> pessoa = pessoaRepository.findById(id);
         if (!verificaSePessoaExiste(pessoa.get())) {
-            return ResponseEntity.notFound().build();
+            return null;
         }
-        return ResponseEntity.ok(pessoa.get());
+        return pessoa.get();
     }
 
     public ResponseEntity<PessoaModel> findByNome(String nome) {
@@ -45,7 +45,7 @@ public class PessoaService {
     }
 
     public PessoaModel update(Long id, PessoaModel pessoaModel) {
-        PessoaModel pessoaModelById = findById(id).getBody();
+        PessoaModel pessoaModelById = findById(id);
         if (!verificaSePessoaExiste(pessoaModelById)) {
             throw new NotFoundException("Id não encontrado.");
         }
@@ -54,12 +54,12 @@ public class PessoaService {
     }
 
     public List<EnderecoModel> listarEnderecoPorId(Long id) {
-        PessoaModel pessoaModel = findById(id).getBody();
+        PessoaModel pessoaModel = findById(id);
         return pessoaModel.getEnderecos();
     }
 
     public List<EnderecoModel> definirEnderecoPrincipal(Long id, String CEP) {
-        PessoaModel pessoaModel = findById(id).getBody();
+        PessoaModel pessoaModel = findById(id);
         List<EnderecoModel> enderecoModels = pessoaModel.getEnderecos();
         for (int i = 0; i < pessoaModel.getEnderecos().size(); i++) {
             if (CEP.equals(enderecoModels.get(i).getCEP())) {
