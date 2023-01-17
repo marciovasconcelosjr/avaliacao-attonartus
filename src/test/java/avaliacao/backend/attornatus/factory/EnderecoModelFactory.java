@@ -13,7 +13,7 @@ public class EnderecoModelFactory {
         enderecoModel.setLogadouro("Rua ABC");
         enderecoModel.setNumero(000);
         enderecoModel.setCEP("11111-111");
-        enderecoModel.setEnderecoPrincipal(true);
+        enderecoModel.setEnderecoPrincipal(false);
         List<EnderecoModel> enderecos = new ArrayList<>();
         enderecos.add(enderecoModel);
         return enderecos;

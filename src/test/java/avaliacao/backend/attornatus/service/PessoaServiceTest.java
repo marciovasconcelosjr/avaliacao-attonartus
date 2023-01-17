@@ -72,7 +72,7 @@ public class PessoaServiceTest extends TestBase {
     @Test
     void atualizarPessoa() {
         PessoaModel pessoaAtualizada = PessoaModelFactory.criarPessoa();
-        pessoaAtualizada.setNome("Mudar o ID Naum");
+        pessoaAtualizada.setNome("Xuxa");
         PessoaModel resultado = pessoaService.update(pessoaAtualizada.getId(), pessoaAtualizada);
         Assertions.assertEquals(resultado.getNome(), pessoaAtualizada.getNome());
     }
@@ -85,5 +85,12 @@ public class PessoaServiceTest extends TestBase {
         Assertions.assertEquals(resultado.size(), 1);
         EnderecoModel enderecoModel = resultado.get(0);
         Assertions.assertTrue(enderecoModel.getLogadouro().equals("Rua ABC"));
+    }
+
+    @Test
+    void alterarEnderecoPrincipal() {
+        PessoaModel pessoa = PessoaModelFactory.criarPessoa();
+        List<EnderecoModel> enderecoResponse = pessoaService.definirEnderecoPrincipal(pessoa.getId(), pessoa.getEnderecos().get(0).getCEP());
+        Assertions.assertEquals(enderecoResponse.get(0).getEnderecoPrincipal(), true);
     }
 }
