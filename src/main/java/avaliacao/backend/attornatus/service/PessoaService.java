@@ -4,6 +4,7 @@ import avaliacao.backend.attornatus.repository.models.EnderecoModel;
 import avaliacao.backend.attornatus.repository.models.PessoaModel;
 import avaliacao.backend.attornatus.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -15,7 +16,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PessoaService {
 
-    private final PessoaRepository pessoaRepository;
+    @Autowired
+    private PessoaRepository pessoaRepository;
 
     public List<PessoaModel> listAll() {
         return pessoaRepository.findAll();

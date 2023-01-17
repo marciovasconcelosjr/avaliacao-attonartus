@@ -1,7 +1,7 @@
 package avaliacao.backend.attornatus.repository;
 
+import avaliacao.backend.attornatus.factory.PessoaModelFactory;
 import avaliacao.backend.attornatus.repository.models.PessoaModel;
-import avaliacao.backend.attornatus.util.PessoaCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,8 @@ class PessoaRepositoryTest {
 
     @Test
     void save_PersistPerson_WhenSuccessful() {
-        PessoaModel pessoa = PessoaCreator.criarPessoaParaSalvar();
+        PessoaModel pessoa = PessoaModelFactory.criarPessoa();
+        ;
 
         PessoaModel pessoaSalva = this.pessoaRepository.save(pessoa);
 
@@ -29,7 +30,7 @@ class PessoaRepositoryTest {
 
     @Test
     void save_UpdatesPerson_WhenSuccessful() {
-        PessoaModel pessoa = PessoaCreator.criarPessoaParaSalvar();;
+        PessoaModel pessoa = PessoaModelFactory.criarPessoa();
         PessoaModel pessoaSalva = this.pessoaRepository.save(pessoa);
 
         pessoaSalva.setNome("Naruto");
@@ -42,7 +43,7 @@ class PessoaRepositoryTest {
 
     @Test
     void findById_ReturnsPerson_WhenSuccessful() {
-        PessoaModel pessoa = PessoaCreator.criarPessoaParaSalvar();;
+        PessoaModel pessoa = PessoaModelFactory.criarPessoa();
         PessoaModel pessoaSalva = this.pessoaRepository.save(pessoa);
 
         Long id = pessoaSalva.getId();
@@ -61,7 +62,7 @@ class PessoaRepositoryTest {
 
     @Test
     void findByName_ReturnsPerson_WhenSuccessful() {
-        PessoaModel pessoa = PessoaCreator.criarPessoaParaSalvar();;
+        PessoaModel pessoa = PessoaModelFactory.criarPessoa();
         PessoaModel pessoaSalva = this.pessoaRepository.save(pessoa);
 
         String nome = pessoaSalva.getNome();
