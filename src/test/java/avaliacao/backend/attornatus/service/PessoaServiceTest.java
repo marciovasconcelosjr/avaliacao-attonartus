@@ -41,36 +41,33 @@ public class PessoaServiceTest extends TestBase {
     @Test
     void salvarPessoa() {
         PessoaModel pessoa = PessoaModelFactory.criarPessoa();
-        PessoaModel pessoa2 = PessoaModelFactory.criarPessoa();
-        Mockito.when(pessoaService.save(pessoa)).thenReturn(pessoa2); // Não mockar o método que vai ser testado
         PessoaModel resultado = pessoaService.save(pessoa);
         log.info(resultado);
 
         Mockito.verify(pessoaRepository).save(pessoa);
-        Assertions.assertEquals(resultado.getId(), pessoa2.getId());
+        Assertions.assertEquals(resultado.getId(), pessoa.getId());
     }
 
     @DisplayName("Test Listar Pessoas")
     @Test
-    void listarPessoas() {
-
+    void listAll_WhenSuccessful() {
         List<PessoaModel> pessoasDB = pessoaService.listAll();
         Mockito.verify(pessoaRepository).findAll();
         Assertions.assertEquals(pessoasDB.size(), 2);
-
     }
 
     @DisplayName("Test PessoaService + PessoaRepository")
     @Test
-    void buscarPessoaPorId() {
+    void findById_WhenSuccessful() {
         PessoaModel pessoa = PessoaModelFactory.criarPessoa();
         PessoaModel response = pessoaService.findById(pessoa.getId());
         Assertions.assertEquals(PessoaModel.class, response.getClass());
+        Assertions.assertEquals(pessoa.getNome(), response.getNome());
     }
 
     @DisplayName("Test Atualizar Pessoas")
     @Test
-    void atualizarPessoa() {
+    void updatePerson_WhenSuccessful() {
         PessoaModel pessoaAtualizada = PessoaModelFactory.criarPessoa();
         pessoaAtualizada.setNome("Xuxa");
         PessoaModel resultado = pessoaService.update(pessoaAtualizada.getId(), pessoaAtualizada);
@@ -79,16 +76,16 @@ public class PessoaServiceTest extends TestBase {
 
     @DisplayName("Test Listar Enderecos por ID")
     @Test
-    void listarEnderecoPorId() {
-
+    void listAddresById_WhenSuccessful() {
         List<EnderecoModel> resultado = pessoaService.listarEnderecoPorId(1L);
         Assertions.assertEquals(resultado.size(), 1);
         EnderecoModel enderecoModel = resultado.get(0);
         Assertions.assertTrue(enderecoModel.getLogadouro().equals("Rua ABC"));
     }
 
+    @DisplayName("Test Alterar Endereço Principal")
     @Test
-    void alterarEnderecoPrincipal() {
+    void changePrincipalAddress_WhenSuccessful() {
         PessoaModel pessoa = PessoaModelFactory.criarPessoa();
         List<EnderecoModel> enderecoResponse = pessoaService.definirEnderecoPrincipal(pessoa.getId(), pessoa.getEnderecos().get(0).getCEP());
         Assertions.assertEquals(enderecoResponse.get(0).getEnderecoPrincipal(), true);

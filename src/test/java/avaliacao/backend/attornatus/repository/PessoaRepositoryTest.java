@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
@@ -17,9 +18,24 @@ class PessoaRepositoryTest {
     private PessoaRepository pessoaRepository;
 
     @Test
+    void findAll_ReturnsListOfPerson_WhenSuccessful() {
+        PessoaModel pessoaModel = PessoaModelFactory.criarPessoa();
+        pessoaRepository.save(pessoaModel);
+        PessoaModel pessoaModel2 = PessoaModelFactory.criarPessoa();
+        pessoaModel2.setId(2L);
+        pessoaModel2.setNome("Xuxa Menegel");
+        pessoaRepository.save(pessoaModel2);
+
+        List<PessoaModel> expectedList = pessoaRepository.findAll();
+
+        Assertions.assertThat(expectedList).isNotNull().isNotEmpty();
+        Assertions.assertThat(expectedList.get(0).getNome()).contains(pessoaModel.getNome());
+        Assertions.assertThat(expectedList.get(1).getNome()).contains(pessoaModel2.getNome());
+    }
+
+    @Test
     void save_PersistPerson_WhenSuccessful() {
         PessoaModel pessoa = PessoaModelFactory.criarPessoa();
-        ;
 
         PessoaModel pessoaSalva = this.pessoaRepository.save(pessoa);
 
